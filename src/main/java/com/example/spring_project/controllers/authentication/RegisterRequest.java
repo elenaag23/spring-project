@@ -1,5 +1,6 @@
-package com.example.spring_project.controllers;
+package com.example.spring_project.controllers.authentication;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+    @NotEmpty(message = "Name is required.")
     private String name;
+    @NotEmpty(message = "Email is required.")
     private String email;
+    @NotEmpty(message = "Password is required.")
     private String password;
 
     public String getName() {
