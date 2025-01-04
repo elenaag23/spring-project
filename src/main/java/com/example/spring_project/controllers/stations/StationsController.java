@@ -30,18 +30,9 @@ public class StationsController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseTemplate<List<Station>>> getStations(){
+    public ResponseEntity<ResponseTemplate<List<Station>>> getStations(@RequestBody (required=false) GetByLocationRequest getByLocationRequest){
 
-        List<Station> stations = stationService.getStations();
-
-        return new ResponseEntity<>(new ResponseTemplate<>
-                ("Stations list retrieved successfully", stations), HttpStatus.OK);
-    }
-
-    @GetMapping("/get/byLocation")
-    public ResponseEntity<ResponseTemplate<List<Station>>> getStationsByLocation(@RequestBody @Valid GetByLocationRequest getByLocationRequest){
-
-        List<Station> stations = stationService.getStationsByLocation(getByLocationRequest);
+        List<Station> stations = stationService.getStations(getByLocationRequest);
 
         return new ResponseEntity<>(new ResponseTemplate<>
                 ("Stations list retrieved successfully", stations), HttpStatus.OK);

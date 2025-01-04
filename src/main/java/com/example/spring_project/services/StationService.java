@@ -67,18 +67,18 @@ public class StationService {
         return null;
     }
 
-    public List<Station> getStations() {
-        return stationRepository.findAll();
-    }
+    public List<Station> getStations(GetByLocationRequest getByLocationRequest) {
 
-    public List<Station> getStationsByLocation(GetByLocationRequest getByLocationRequest) {
-        List<Station> stations = getStations();
-
-        return stations.stream()
-                .filter(station -> {
-                    double distance = HaversineUtil.calculateDistance(getByLocationRequest.getLatitude(), getByLocationRequest.getLongitude(), station.getLatitude(), station.getLongitude());
-                    return distance <= getByLocationRequest.getRadius(); // Check if the station is within the radius
-                })
-                .collect(Collectors.toList());
+        List<Station> stations = stationRepository.findAll();
+        if(getByLocationRequest == null){
+            return stations;
+        } else {
+            return stations.stream()
+                    .filter(station -> {
+                        double distance = HaversineUtil.calculateDistance(getByLocationRequest.getLatitude(), getByLocationRequest.getLongitude(), station.getLatitude(), station.getLongitude());
+                        return distance <= getByLocationRequest.getRadius(); // Check if the station is within the radius
+                    })
+                    .collect(Collectors.toList());
+        }
     }
 }
