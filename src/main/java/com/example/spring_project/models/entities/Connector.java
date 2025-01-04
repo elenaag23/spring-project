@@ -1,5 +1,6 @@
 package com.example.spring_project.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Table
@@ -21,6 +22,7 @@ public class Connector {
 
     @ManyToOne
     @JoinColumn(name = "station_id")
+    @JsonBackReference
     private Station station;
 
     public Connector() {
@@ -28,6 +30,15 @@ public class Connector {
 
     public Connector(int connectorId, String currentType, String connectorType, Double maxPower, Double pricePerKw, String chargingStatus, Station station) {
         this.connectorId = connectorId;
+        this.currentType = currentType;
+        this.connectorType = connectorType;
+        this.maxPower = maxPower;
+        this.pricePerKw = pricePerKw;
+        this.chargingStatus = chargingStatus;
+        this.station = station;
+    }
+
+    public Connector(String currentType, String connectorType, Double maxPower, Double pricePerKw, String chargingStatus, Station station) {
         this.currentType = currentType;
         this.connectorType = connectorType;
         this.maxPower = maxPower;
