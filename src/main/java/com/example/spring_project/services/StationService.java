@@ -2,8 +2,10 @@ package com.example.spring_project.services;
 
 import com.example.spring_project.controllers.stations.AddRequest;
 import com.example.spring_project.controllers.stations.CoordinatesDto;
+import com.example.spring_project.controllers.stations.GetByLocationRequest;
 import com.example.spring_project.models.entities.Station;
 import com.example.spring_project.repositories.StationRepository;
+import com.example.spring_project.utils.HaversineUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StationService {
@@ -66,5 +69,16 @@ public class StationService {
 
     public List<Station> getStations() {
         return stationRepository.findAll();
+    }
+
+    public List<Station> getStationsByLocation(GetByLocationRequest getByLocationRequest) {
+        List<Station> stations = getStations();
+
+        return stations.stream()
+                .filter(station -> {
+                    double distance = HaversineUtil.calculateDistance(getByLocationRequest.getLatitude(), getByLocationRequest.getLongitude(), station.getLatitude(), station.getLongitude());
+                    return distance <= getByLocationRequest.getRadius(); // Check if the station is within the radius
+                })
+                .collect(Collectors.toList());
     }
 }
