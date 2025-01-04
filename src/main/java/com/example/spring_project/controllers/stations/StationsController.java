@@ -6,10 +6,9 @@ import com.example.spring_project.utils.ResponseTemplate;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/station")
@@ -28,5 +27,14 @@ public class StationsController {
 
         return new ResponseEntity<>(new ResponseTemplate<>
                 ("Station added successfuly", added), HttpStatus.OK);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<ResponseTemplate<List<Station>>> getStations(){
+
+        List<Station> stations = stationService.getStations();
+
+        return new ResponseEntity<>(new ResponseTemplate<>
+                ("Stations list retrieved successfully", stations), HttpStatus.OK);
     }
 }

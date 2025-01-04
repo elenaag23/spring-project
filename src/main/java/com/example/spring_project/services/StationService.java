@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 public class StationService {
     private static final Logger log = LoggerFactory.getLogger(StationService.class);
@@ -62,4 +64,7 @@ public class StationService {
         return null;
     }
 
+    public List<Station> getStations() {
+        return stationRepository.findAll();
+    }
 }
