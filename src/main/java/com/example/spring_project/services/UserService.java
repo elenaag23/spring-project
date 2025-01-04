@@ -16,7 +16,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
     public EditResponse edit(@Valid EditRequest request) {
         int rowsUpdated = userRepository.updateUser(request.getName(), request.getEmail());
         if (rowsUpdated == 0) {
@@ -26,7 +25,5 @@ public class UserService {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
         return new EditResponse(user.getEmail(), user.getName());
-
-
     }
 }

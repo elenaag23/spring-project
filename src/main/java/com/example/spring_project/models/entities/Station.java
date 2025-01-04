@@ -17,10 +17,25 @@ public class Station {
 
     private String address;
 
+    private double latitude;
+
+    private double longitude;
+
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL)
     private List<Connector> connectors;
 
     public Station() {
+    }
+
+    public Station(String stationName, String address) {
+        this.stationName = stationName;
+        this.address = address;
+    }
+
+    public Station(String stationName, String status, String address) {
+        this.stationName = stationName;
+        this.status = status;
+        this.address = address;
     }
 
     public Station(int stationId, String stationName, String status, String address) {
@@ -28,6 +43,22 @@ public class Station {
         this.stationName = stationName;
         this.status = status;
         this.address = address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public int getStationId() {
