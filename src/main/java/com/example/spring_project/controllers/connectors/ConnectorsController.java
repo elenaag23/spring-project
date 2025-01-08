@@ -3,9 +3,11 @@ package com.example.spring_project.controllers.connectors;
 import com.example.spring_project.controllers.connectors.AddRequest;
 import com.example.spring_project.models.entities.Connector;
 import com.example.spring_project.models.entities.Reservation;
+import com.example.spring_project.models.entities.Transaction;
 import com.example.spring_project.security.JwtUtil;
 import com.example.spring_project.services.ConnectorService;
 import com.example.spring_project.services.ReservationService;
+import com.example.spring_project.services.TransactionService;
 import com.example.spring_project.utils.ResponseTemplate;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -22,11 +24,13 @@ public class ConnectorsController {
     private final ConnectorService connectorService;
     private final ReservationService reservationService;
     private final JwtUtil jwtUtil;
+    private final TransactionService transactionService;
 
-    public ConnectorsController(ConnectorService connectorService, ReservationService reservationService, JwtUtil jwtUtil) {
+    public ConnectorsController(ConnectorService connectorService, ReservationService reservationService, JwtUtil jwtUtil, TransactionService transactionService) {
         this.connectorService = connectorService;
         this.reservationService = reservationService;
         this.jwtUtil = jwtUtil;
+        this.transactionService = transactionService;
     }
 
 
@@ -52,6 +56,34 @@ public class ConnectorsController {
 
         return new ResponseEntity<>(new ResponseTemplate<>
                 ("Connector reserved successfully", reservationResponse), HttpStatus.OK);
+    }
+
+    @PostMapping("/startCharging")
+    public ResponseEntity<ResponseTemplate<Transaction>> startCharging(@RequestHeader("Authorization") String token, @RequestBody @Valid StartChargingRequest request){
+
+        token = token.substring(7);
+
+        String username = jwtUtil.extractUsername(token);
+        Connector started = connectorService.startCharging(username, request);
+
+        Transaction transaction = transactionService.createTransaction(username, request);
+
+        return new ResponseEntity<>(new ResponseTemplate<>
+                ("Charging started successfully", transaction), HttpStatus.OK);
+    }
+
+    @PostMapping("/stopCharging")
+    public ResponseEntity<ResponseTemplate<Transaction>> stopCharging(@RequestHeader("Authorization") String token, @RequestBody @Valid StopRequest request){
+
+        token = token.substring(7);
+
+        log.info("stop charging request: " + request);
+
+        String username = jwtUtil.extractUsername(token);
+        Transaction started = transactionService.stopTransaction(request);
+
+        return new ResponseEntity<>(new ResponseTemplate<>
+                ("Charging stopped successfully", started), HttpStatus.OK);
     }
 
 }
