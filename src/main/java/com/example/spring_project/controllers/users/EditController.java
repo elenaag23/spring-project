@@ -1,4 +1,4 @@
-package com.example.spring_project.controllers.users.edit;
+package com.example.spring_project.controllers.users;
 
 import com.example.spring_project.services.UserService;
 import com.example.spring_project.utils.ResponseTemplate;

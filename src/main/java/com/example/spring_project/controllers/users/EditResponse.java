@@ -1,4 +1,4 @@
-package com.example.spring_project.controllers.users.edit;
+package com.example.spring_project.controllers.users;
 
 public class EditResponse {
     private String email;

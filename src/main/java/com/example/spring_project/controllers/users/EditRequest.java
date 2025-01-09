@@ -1,4 +1,4 @@
-package com.example.spring_project.controllers.users.edit;
+package com.example.spring_project.controllers.users;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

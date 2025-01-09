@@ -1,5 +1,6 @@
 package com.example.spring_project.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE)
+    @JsonManagedReference
+    private Wallet wallet;
+
     public User() {
     }
 
@@ -40,6 +45,14 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.name = name;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 
     public int getUserId() {

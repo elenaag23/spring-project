@@ -23,11 +23,13 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final ConnectorRepository connectorRepository;
+    private final WalletService walletService;
 
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, ConnectorRepository connectorRepository) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, ConnectorRepository connectorRepository, WalletService walletService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
         this.connectorRepository = connectorRepository;
+        this.walletService = walletService;
     }
 
     public Transaction createTransaction(String username, @Valid StartChargingRequest request) {
@@ -36,6 +38,9 @@ public class TransactionService {
         Connector connector = connectorRepository.findByConnectorIdAndStationId(request.getStationId(), request.getConnectorId()).orElseThrow(() ->
                 new IllegalArgumentException("Connector not found"));
         Double amount = request.getRevenue() / connector.getPricePerKw();
+
+        walletService.addPoints(user, amount);
+
 
         Transaction transaction = new Transaction(LocalDateTime.now(), connector, request.getRevenue(), amount, user);
         return transactionRepository.save(transaction);
