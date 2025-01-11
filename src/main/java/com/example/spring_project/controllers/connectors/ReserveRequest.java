@@ -1,5 +1,6 @@
 package com.example.spring_project.controllers.connectors;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReserveRequest {
 
+    @NotEmpty(message = "You must provide a station id")
     private int stationId;
 
+    @NotEmpty(message = "You must provide the connector id")
     private int connectorId;
 
     public int getStationId() {

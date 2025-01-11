@@ -1,10 +1,17 @@
 package com.example.spring_project.controllers.connectors;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+
 public class StartChargingRequest {
+    @NotEmpty(message = "You must provide the connector id")
     private int connectorId;
 
+    @NotEmpty(message = "You must provide the station id")
     private int stationId;
 
+    @NotEmpty(message = "You must provide the amount to charge in RON")
+    @Min(value = 25, message = "You must charge for at least 25 RON")
     private double revenue;
 
     public StartChargingRequest(int connectorId, int stationId, double revenue) {

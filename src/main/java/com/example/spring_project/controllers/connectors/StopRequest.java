@@ -1,6 +1,10 @@
 package com.example.spring_project.controllers.connectors;
 
+import jakarta.validation.constraints.NotEmpty;
+import lombok.NonNull;
+
 public class StopRequest {
+    @NotEmpty(message = "You must provide the transaction id to stop")
     private int transactionId;
 
     public StopRequest(int transactionId) {

@@ -1,5 +1,6 @@
 package com.example.spring_project.controllers.users;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class EditRequest {
 
     @NotEmpty(message = "Email is required.")
+    @Email(message = "You must provide a valid email")
     private String email;
 
     @NotEmpty(message = "Name is required.")
