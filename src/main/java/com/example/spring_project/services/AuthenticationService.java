@@ -66,7 +66,9 @@ public class AuthenticationService {
         }
 
 
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() ->
+                new IllegalArgumentException("Invalid email or password.") // Change here
+        );
         String token = jwtUtil.generateToken(user);
         return token;
     }

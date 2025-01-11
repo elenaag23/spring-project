@@ -38,6 +38,10 @@ public class Reservation {
         this.connectorId = connectorId;
     }
 
+    public Reservation() {
+
+    }
+
     public int getStationId() {
         return stationId;
     }

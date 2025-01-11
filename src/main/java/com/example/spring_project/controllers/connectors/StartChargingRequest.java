@@ -14,6 +14,9 @@ public class StartChargingRequest {
     @Min(value = 25, message = "You must charge for at least 25 RON")
     private double revenue;
 
+    public StartChargingRequest() {
+    }
+
     public StartChargingRequest(int connectorId, int stationId, double revenue) {
         this.connectorId = connectorId;
         this.stationId = stationId;
